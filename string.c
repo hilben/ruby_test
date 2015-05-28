@@ -4773,6 +4773,8 @@ rb_str_byteslice(int argc, VALUE *argv, VALUE str)
     return str_byte_aref(str, argv[0]);
 }
 
+
+
 /*
  *  call-seq:
  *     str.reverse   -> new_str
@@ -4871,6 +4873,9 @@ rb_str_reverse_bang(VALUE str)
     }
     return str;
 }
+
+
+
 
 
 /*
@@ -9076,6 +9081,22 @@ rb_to_symbol(VALUE name)
     return rb_str_intern(name);
 }
 
+
+/*
+ *  call-seq:
+ *     str.reverse_upcase   -> str
+ *
+ *  Reverses <i>str</i> and upcases it
+ */
+
+static VALUE
+rb_str_reverse_upcase(VALUE str)
+{
+    str = rb_str_reverse(str);
+    str = rb_str_upcase(str);
+    return str;
+}
+
 /*
  *  A <code>String</code> object holds and manipulates an arbitrary sequence of
  *  bytes, typically representing characters. String objects may be created
@@ -9266,6 +9287,10 @@ Init_String(void)
     rb_define_method(rb_cSymbol, "swapcase", sym_swapcase, 0);
 
     rb_define_method(rb_cSymbol, "encoding", sym_encoding, 0);
+
+    /* my added code begin */ 
+    rb_define_method(rb_cString, "reverse_upcase", rb_str_reverse_upcase, 0);
+    /* my added code end   */ 
 
     assert(rb_vm_fstring_table());
     st_foreach(rb_vm_fstring_table(), fstring_set_class_i, rb_cString);
